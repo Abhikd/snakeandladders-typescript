@@ -7,7 +7,14 @@ let context;
 let rolledNum;
 let playerX = 0;
 let playerY = 9;
+let playerTwoX = 0;
+let playerTwoY = 9;
 let dir = "right";
+let placeholder;
+let player = 1;
+let dir1 = "right";
+let tempX;
+let tempY;
 window.onload = function () {
     board = document.getElementById("board");
     board.height = rows * blockSize;
@@ -51,6 +58,10 @@ function initialUpdate() {
     let playerY = 9;
     context.fillStyle = "lime";
     context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+    let playerTwoX = 0;
+    let playerTwoY = 9;
+    context.fillStyle = "indigo";
+    context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
     let snakeOneX = 3;
     let snakeOneY = 7;
     context.fillStyle = "red";
@@ -205,87 +216,197 @@ function update() {
     let snakeSixY = 8;
     context.fillStyle = "purple";
     context.fillRect(snakeSixX * blockSize, snakeSixY * blockSize, blockSize, blockSize);
-    rolledNum = Math.floor(Math.random() * 6) + 1;
-    console.log(rolledNum);
-    if (dir === "right") {
-        if (playerX + rolledNum <= 9) {
-            playerX += rolledNum;
-            context.fillStyle = "lime";
-            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-            let dir = "right";
+    if (player === 1) {
+        rolledNum = Math.floor(Math.random() * 6) + 1;
+        console.log(rolledNum);
+        placeholder = document.getElementById('placeholder');
+        placeholder.innerHTML = rolledNum.toString();
+        if (dir === "right") {
+            if (playerX + rolledNum <= 9) {
+                playerX += rolledNum;
+                context.fillStyle = "lime";
+                context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+                let dir = "right";
+            }
+            else {
+                playerY -= 1;
+                playerX = (playerX + rolledNum) - 9;
+                playerX = 9 - playerX + 1;
+                dir = "left";
+                context.fillStyle = "lime";
+                context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+            }
         }
-        else {
-            playerY -= 1;
-            playerX = (playerX + rolledNum) - 9;
-            playerX = 9 - playerX + 1;
-            dir = "left";
-            context.fillStyle = "lime";
-            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        else if (dir == "left") {
+            if (playerX - rolledNum >= 0) {
+                playerX -= rolledNum;
+                //  tempX = playerX;
+                //  tempY = playerY;
+                context.fillStyle = "lime";
+                context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+            }
+            else {
+                playerY -= 1;
+                playerX = playerX - rolledNum;
+                playerX = (-1 * playerX) - 1;
+                dir = "right";
+                // tempX = playerX;
+                // tempY = playerY;
+                context.fillStyle = "lime";
+                context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+            }
+            /*   if(playerY === 0){
+                   if(playerX - rolledNum < 0){
+                       context.fillStyle("Lime");
+                       context.fillRect(tempX * blockSize, tempY * blockSize, blockSize, blockSize)
+                   }
+               }
+   
+               if(playerX === 0 && playerY === 0) {
+                   alert("Player One Won!")
+               } */
         }
-    }
-    else if (dir == "left") {
-        if (playerX - rolledNum >= 0) {
-            playerX -= rolledNum;
-            context.fillStyle = "lime";
-            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-        }
-        else {
-            playerY -= 1;
-            playerX = playerX - rolledNum;
-            playerX = (-1 * playerX) - 1;
+        if (playerX === snakeTwoX && playerY === snakeTwoY) {
+            playerX = snakeOneX;
+            playerY = snakeOneY;
             dir = "right";
             context.fillStyle = "lime";
             context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
         }
+        else if (playerX === snakeThreeX && playerY === snakeThreeY) {
+            playerX = snakeFourX;
+            playerY = snakeFourY;
+            dir = "right";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        else if (playerX === snakeFiveX && playerY === snakeFiveY) {
+            playerX = snakeSixX;
+            playerY = snakeSixY;
+            dir = "left";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        if (playerX === stairOneX && playerY === stairOneY) {
+            playerX = stairTwoX;
+            playerY = stairTwoY;
+            dir = "left";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        else if (playerX === stairThreeX && playerY === stairThreeY) {
+            playerX = stairFourX;
+            playerY = stairFourY;
+            dir = "left";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        else if (playerX === stairSixX && playerY === stairSixY) {
+            playerX = stairFiveX;
+            playerY = stairFiveY;
+            dir = "left";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        else if (playerX === stairSevenX && playerY === stairSevenY) {
+            playerX = stairEightX;
+            playerY = stairEightY;
+            dir = "left";
+            context.fillStyle = "lime";
+            context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        }
+        context.fillStyle = "indigo";
+        context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        player = 2;
     }
-    if (playerX === snakeTwoX && playerY === snakeTwoY) {
-        playerX = snakeOneX;
-        playerY = snakeOneY;
-        dir = "right";
+    else if (player === 2) {
+        rolledNum = Math.floor(Math.random() * 6) + 1;
+        console.log(rolledNum);
+        placeholder = document.getElementById('placeholder');
+        placeholder.innerHTML = rolledNum.toString();
+        if (dir1 === "right") {
+            if (playerTwoX + rolledNum <= 9) {
+                playerTwoX += rolledNum;
+                context.fillStyle = "indigo";
+                context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+                let dir1 = "right";
+            }
+            else {
+                playerTwoY -= 1;
+                playerTwoX = (playerTwoX + rolledNum) - 9;
+                playerTwoX = 9 - playerTwoX + 1;
+                dir1 = "left";
+                context.fillStyle = "indigo";
+                context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+            }
+        }
+        else if (dir1 == "left") {
+            if (playerTwoX - rolledNum >= 0) {
+                playerTwoX -= rolledNum;
+                context.fillStyle = "indigo";
+                context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+            }
+            else {
+                playerTwoY -= 1;
+                playerTwoX = playerTwoX - rolledNum;
+                playerTwoX = (-1 * playerTwoX) - 1;
+                dir1 = "right";
+                context.fillStyle = "indigo";
+                context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+            }
+        }
+        if (playerTwoX === snakeTwoX && playerTwoY === snakeTwoY) {
+            playerTwoX = snakeOneX;
+            playerTwoY = snakeOneY;
+            dir = "right";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        else if (playerTwoX === snakeThreeX && playerTwoY === snakeThreeY) {
+            playerTwoX = snakeFourX;
+            playerTwoY = snakeFourY;
+            dir = "right";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        else if (playerTwoX === snakeFiveX && playerTwoY === snakeFiveY) {
+            playerTwoX = snakeSixX;
+            playerTwoY = snakeSixY;
+            dir = "left";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        if (playerTwoX === stairOneX && playerTwoY === stairOneY) {
+            playerTwoX = stairTwoX;
+            playerTwoY = stairTwoY;
+            dir = "left";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        else if (playerTwoX === stairThreeX && playerTwoY === stairThreeY) {
+            playerTwoX = stairFourX;
+            playerTwoY = stairFourY;
+            dir = "left";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        else if (playerTwoX === stairSixX && playerTwoY === stairSixY) {
+            playerTwoX = stairFiveX;
+            playerTwoY = stairFiveY;
+            dir = "left";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
+        else if (playerTwoX === stairSevenX && playerTwoY === stairSevenY) {
+            playerTwoX = stairEightX;
+            playerTwoY = stairEightY;
+            dir = "left";
+            context.fillStyle = "indigo";
+            context.fillRect(playerTwoX * blockSize, playerTwoY * blockSize, blockSize, blockSize);
+        }
         context.fillStyle = "lime";
         context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    else if (playerX === snakeThreeX && playerY === snakeThreeY) {
-        playerX = snakeFourX;
-        playerY = snakeFourY;
-        dir = "right";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    else if (playerX === snakeFiveX && playerY === snakeFiveY) {
-        playerX = snakeSixX;
-        playerY = snakeSixY;
-        dir = "left";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    if (playerX === stairOneX && playerY === stairOneY) {
-        playerX = stairTwoX;
-        playerY = stairTwoY;
-        dir = "left";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    if (playerX === stairThreeX && playerY === stairThreeY) {
-        playerX = stairFourX;
-        playerY = stairFourY;
-        dir = "left";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    if (playerX === stairSixX && playerY === stairSixY) {
-        playerX = stairFiveX;
-        playerY = stairFiveY;
-        dir = "left";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
-    }
-    if (playerX === stairSevenX && playerY === stairSevenY) {
-        playerX = stairEightX;
-        playerY = stairEightY;
-        dir = "left";
-        context.fillStyle = "lime";
-        context.fillRect(playerX * blockSize, playerY * blockSize, blockSize, blockSize);
+        player = 1;
     }
 }
 /* function roll(e:any) {
